@@ -170,7 +170,7 @@ function truncateText(text, maxLength) {
 
   useEffect(() => {
     const storedDarkMode = JSON.parse(localStorage.getItem('darkMode'));
-    setDarkMode(storedDarkMode || false);
+    setDarkMode(storedDarkMode || true);
   }, []);
 
 
