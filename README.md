@@ -1,3 +1,8 @@
+About 
+This project is for adding, deleting or editing tasks or activities with tags. The acitives will have associated tags and a number for how many times this activity has been done. 
+The project was set up using react and was designed using react-bootstrap. The back end was completed using MongoDb and express.js 
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
