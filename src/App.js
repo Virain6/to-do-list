@@ -7,6 +7,9 @@ import { FaMoon, FaArrowUp, FaArrowDown} from "react-icons/fa";
 import { ImShuffle } from "react-icons/im";
 import { IoSunny } from "react-icons/io5";
 import { TfiArrowDown } from "react-icons/tfi";
+import ActivatyItem from './components/activityListItem'
+import ActivatyCard from './components/activityCard'
+import ActivityCard from './components/activityCard';
 
 function App() {
   // sample data
@@ -141,10 +144,10 @@ function App() {
     console.log(selectedTest.num);
 }
 
-// limiting list group text (def) length 
+/* limiting list group text (def) length 
 function truncateText(text, maxLength) {
   return text.length > maxLength ? `${text.slice(0, maxLength)}...` : text;
-}
+}*/
 
 
 // re rendering 
@@ -211,51 +214,30 @@ function truncateText(text, maxLength) {
         </Container>
         <Container>
           <Stack direction="horizontal" gap="2" className="align-items-start">
-            <ListGroup as='ol' className='w-100' numbered style={darkModeListGroup()}> 
+            <ListGroup as='ol' className='w-100' numbered /*style={darkModeListGroup()}*/> 
               {filteredTests
               .map((test) => (
-                <ListGroup.Item action as='li' className="d-flex justify-content-between align-items-start" key = {test.id} onClick={()=> handleTestSelection(test)} style={darkModeListGroup(test)}>
-                <div className="ms-2 me-auto">
-                  <div className="fw-bold">{test.name}</div>
-                  {truncateText(test.def, 50)}
-                  <div>
-                    {tags
-                    .filter((tag) => test.tags.includes(tag.name))
-                    .map((tag) => (
-                      <Badge key={tag.id} bg={tag.var}>{tag.name}</Badge>
-                    ))}
-                  </div>
-                </div>
-                <Badge key="A" bg='primary' pill>{test.num}</Badge>
-              </ListGroup.Item>
+                <ActivatyItem
+                        test = {test}
+                        selection = {() => handleTestSelection(test)}
+                        tags = {tags}
+                        darkMode={darkMode}
+                        selectedTest={selectedTest}
+                /> 
               ))}
             </ListGroup>
             <div className="ml-5 w-100">
-              {selectedTest && (<Card style={darkModeListGroup()}>
-                <Card.Body>
-                  <Card.Title className='d-flex mb-4'><div className='me-auto'>{selectedTest.name}</div> 
-                  <CloseButton bg="primary" onClick={()=> exitTestSelection()} variant={darkMode ? 'white': 'grey'}/></Card.Title>
-                  <Card.Subtitle className='d-flex mb-4'>
-                    <div className='me-3 flex-fill'>
-                      {tags
-                      .filter((tag) => selectedTest.tags.includes(tag.name))
-                      .map((tag) => (
-                        <Badge key={tag.id} bg={tag.var}>{tag.name}</Badge>
-                      ))}
-                      <ProgressBar className='mt-1 ' style={{ backgroundColor: '#E5E5E5' }} now={(selectedTest.num/maxNum)*100} label={`${selectedTest.num}`}/>
-                    </div>
-                    <ButtonGroup >
-                      <Button variant="outline-danger" onClick={()=> reductionNum(selectedTest)} style={{border:'0px'}}><FaArrowDown /></Button>
-                      <Button variant="outline-success" onClick={()=> incrementNum(selectedTest)} style={{border:'0px'}}><FaArrowUp /></Button>
-                    </ButtonGroup>
-                  </Card.Subtitle>
-                  <Card.Text className='mb-4'>{selectedTest.def}</Card.Text>
-                  <Stack direction='horizontal' gap='2' className='d-flex justify-content-end' >
-                    <Button variant='primary'>Edit</Button>
-                    <Button variant='danger'>Delete</Button>
-                  </Stack>
-                </Card.Body>
-              </Card>)}
+              {selectedTest && (
+              <ActivityCard
+                selectedTest={selectedTest}
+                tags={tags}
+                darkMode={darkMode}
+                exit={setSelectedTest}
+                incrementNum={incrementNum}
+                reductionNum={reductionNum}
+                maxNum = {maxNum}
+              />
+              )}
             </div>
           </Stack>
         </Container>
